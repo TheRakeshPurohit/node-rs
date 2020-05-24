@@ -1,0 +1,10 @@
+namespace node.rs.argon2;
+
+struct NumericLimit {
+  max: short;
+  min: short;
+}
+
+table OptionLimits {
+  hashLength: NumericLimit;
+}
