@@ -1,10 +1,28 @@
-namespace node.rs.argon2;
+namespace argon2;
+
+enum Argon2Type : byte { D = 0, I, ID }
+
+table Options {
+  hashLength: short = 32;
+  timeCost: short = 3;
+  memoryCost: uint = 4096;
+  parallelism: short = 1;
+  saltLen: short = 16;
+  type: Argon2Type;
+  salt: [ubyte];
+  raw: bool;
+  secret: [ubyte];
+  associatedData: [ubyte];
+}
 
 struct NumericLimit {
   max: short;
   min: short;
 }
 
-table OptionLimits {
+struct OptionLimits {
   hashLength: NumericLimit;
+  memoryCost: NumericLimit;
+  timeCost: NumericLimit;
+  parallelism: NumericLimit;
 }

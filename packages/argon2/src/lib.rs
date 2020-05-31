@@ -5,6 +5,10 @@ extern crate napi_rs_derive;
 
 use napi::{Buffer, CallContext, Env, Object, Result, Value};
 
+use option_generated::argon_2::Options;
+
+mod option_generated;
+
 #[cfg(unix)]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
