@@ -1,28 +1,15 @@
 namespace argon2;
 
 enum Argon2Type : byte { D = 0, I, ID }
+enum Version: byte { Version10 = 0, Version13 }
 
 table Options {
-  hashLength: short = 32;
-  timeCost: short = 3;
-  memoryCost: uint = 4096;
-  parallelism: short = 1;
-  saltLen: short = 16;
-  type: Argon2Type;
-  salt: [ubyte];
-  raw: bool;
-  secret: [ubyte];
   associatedData: [ubyte];
-}
-
-struct NumericLimit {
-  max: short;
-  min: short;
-}
-
-struct OptionLimits {
-  hashLength: NumericLimit;
-  memoryCost: NumericLimit;
-  timeCost: NumericLimit;
-  parallelism: NumericLimit;
+  hashLength: short;
+  parallelism: uint;
+  memoryCost: uint;
+  secret: [ubyte];
+  timeCost: short;
+  variant: Argon2Type;
+  version: Version;
 }

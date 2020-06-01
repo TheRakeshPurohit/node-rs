@@ -1,1 +1,1 @@
-export * as flatbuffers from 'flatbuffers'
+export { flatbuffers } from 'flatbuffers'
