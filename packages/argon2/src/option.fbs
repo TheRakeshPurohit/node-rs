@@ -9,7 +9,7 @@ table Options {
   parallelism: uint;
   memoryCost: uint;
   secret: [ubyte];
-  timeCost: short;
+  timeCost: uint;
   variant: Argon2Type;
   version: Version;
 }

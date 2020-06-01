@@ -56,20 +56,20 @@ export async function hash(
     new Uint8Array((options.secret ?? defaults.secret).buffer),
   )
 
-  argon2.Options.startOptions(optionsBuilder)
-  argon2.Options.addAssociatedData(optionsBuilder, adOffset)
-  argon2.Options.addHashLength(optionsBuilder, options.hashLength ?? defaults.hashLength)
-  argon2.Options.addMemoryCost(optionsBuilder, options.memoryCost ?? defaults.memoryCost)
-  argon2.Options.addParallelism(optionsBuilder, options.parallelism ?? defaults.parallelism)
-  argon2.Options.addTimeCost(optionsBuilder, options.timeCost ?? defaults.timeCost)
-  argon2.Options.addVariant(optionsBuilder, options.variant ?? defaults.variant)
-  argon2.Options.addVersion(optionsBuilder, options.version ?? defaults.version)
-  argon2.Options.addSecret(optionsBuilder, secretOffset)
-  const opt = argon2.Options.endOptions(optionsBuilder)
+  const opt = argon2.Options.createOptions(
+    optionsBuilder,
+    adOffset,
+    options.hashLength ?? defaults.hashLength,
+    options.parallelism ?? defaults.parallelism,
+    options.memoryCost ?? defaults.memoryCost,
+    secretOffset,
+    options.timeCost ?? defaults.timeCost,
+    options.variant ?? defaults.variant,
+    options.version ?? defaults.version,
+  )
   optionsBuilder.finish(opt)
 
-  const buf = optionsBuilder.dataBuffer()
   const salt = options.salt ?? (await randomBytesAsync(options.saltLength ?? defaults.saltLength))
 
-  return bindings.hash(hashInput, salt, buf.bytes().buffer)
+  return bindings.hash(hashInput, salt, Buffer.from(optionsBuilder.asUint8Array()))
 }
