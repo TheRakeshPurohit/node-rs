@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fargon2%402.1.0...%40node-rs%2Fargon2%402.2.0) (2026-08-29)
+
+### Features
+
+- **argon2:** add parseOptions to read parameters from hash string ([#1195](https://github.com/napi-rs/node-rs/issues/1195)) ([227a5bf](https://github.com/napi-rs/node-rs/commit/227a5bfb138645395acd288752d5ec995572257e))
+
 # [2.1.0](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fargon2%402.0.2...%40node-rs%2Fargon2%402.1.0) (2026-08-13)
 
 ### Bug Fixes
