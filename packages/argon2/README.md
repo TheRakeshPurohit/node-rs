@@ -116,3 +116,51 @@ export function verify(
   abortSignal?: AbortSignal | undefined | null,
 ): Promise<boolean>
 ```
+
+## `parseOptions` — needs-rehash checks
+
+`parseOptions` parses an encoded PHC hash string and returns the parameters it was created with. Compare them against your current policy to decide whether a stored hash should be rehashed at next login.
+
+```typescript
+import { Algorithm, parseOptions, Version } from '@node-rs/argon2'
+
+const POLICY = {
+  algorithm: Algorithm.Argon2id,
+  version: Version.V0x13,
+  memoryCost: 19456,
+  timeCost: 2,
+  parallelism: 1,
+  outputLen: 32,
+} as const
+
+function needsRehash(hashed: string): boolean {
+  const parsed = parseOptions(hashed)
+  return (
+    parsed.algorithm !== POLICY.algorithm ||
+    parsed.version !== POLICY.version ||
+    parsed.memoryCost !== POLICY.memoryCost ||
+    parsed.timeCost !== POLICY.timeCost ||
+    parsed.parallelism !== POLICY.parallelism ||
+    parsed.outputLen !== POLICY.outputLen ||
+    parsed.saltLen < 16
+  )
+}
+```
+
+```typescript
+export interface ParsedHashOptions {
+  algorithm: Algorithm
+  version: Version
+  /** Memory cost in kibibytes (`m=` in the PHC string). */
+  memoryCost: number
+  /** Time cost / number of passes (`t=` in the PHC string). */
+  timeCost: number
+  /** Degree of parallelism (`p=` in the PHC string). */
+  parallelism: number
+  /** Length of the raw hash output in bytes. */
+  outputLen: number
+  /** Byte length of the decoded salt. This package generates 16-byte salts; older hashes may carry shorter ones. */
+  saltLen: number
+}
+export function parseOptions(hashed: string | Uint8Array): ParsedHashOptions
+```
